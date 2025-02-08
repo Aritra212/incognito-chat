@@ -30,8 +30,8 @@ export default function ProfileShort({
                 </AvatarFallback>
               </Avatar>
               <div>
-                <p className="pl-2 text-xl">{name}</p>
-                <p className="text-xs">~{userName}</p>
+                <p className="text-xl">{name}</p>
+                <p className="text-xs text-muted-foreground">{userName}</p>
               </div>
             </div>
             <Show when={!!editProfile}>

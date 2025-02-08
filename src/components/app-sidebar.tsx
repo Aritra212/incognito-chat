@@ -11,7 +11,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
 import ProfileShort from "./profile-short";
@@ -63,9 +62,8 @@ export function AppSidebar() {
             isCollapsed={isCollapsed}
           />
         </SidebarHeader>
-        <SidebarSeparator className="mx-0" />
         <SidebarGroup>
-          <SidebarGroupLabel className="flex justify-between items-center w-full">
+          <SidebarGroupLabel className="flex justify-between items-center w-full border-t-2 border-border/20 rounded-none">
             <p>Recent Conversations</p>
             <div className="flex gap-x-2 items-center">
               <Search className="w-4 h-4 cursor-pointer" />
