@@ -1,9 +1,18 @@
 "use client";
-import { Calendar, Home, Inbox, Plus, Search, Settings } from "lucide-react";
+import {
+  Calendar,
+  Home,
+  Inbox,
+  LogOut,
+  Plus,
+  Search,
+  Settings,
+} from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -51,17 +60,17 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon" variant="floating">
+      <SidebarHeader
+        className={cn("transition-all", !isCollapsed && "p-4 flex")}
+      >
+        <ProfileShort
+          name="Aritra Paul"
+          userName="Aritra212"
+          editProfile="/profile"
+          isCollapsed={isCollapsed}
+        />
+      </SidebarHeader>
       <SidebarContent>
-        <SidebarHeader
-          className={cn("transition-all", !isCollapsed && "p-4 flex")}
-        >
-          <ProfileShort
-            name="Aritra Paul"
-            userName="Aritra212"
-            editProfile="/profile"
-            isCollapsed={isCollapsed}
-          />
-        </SidebarHeader>
         <SidebarGroup>
           <SidebarGroupLabel className="flex justify-between items-center w-full border-t-2 border-border/20 rounded-none">
             <p>Recent Conversations</p>
@@ -86,6 +95,18 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <div className="flex items-center gap-x-2 cursor-pointer">
+                <LogOut className="w-4 h-4" />
+                <p>Log Out</p>
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }

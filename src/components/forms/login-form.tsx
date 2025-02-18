@@ -15,8 +15,8 @@ import { EyeIcon, EyeOff, Mail } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { ILogin, LoginSchema } from "./schemas/login-form-schema";
-// import { login } from "@/utils/data-access/auth";
-// import { toast } from "sonner";
+import { login } from "@/utils/data-access/auth";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
@@ -30,10 +30,9 @@ export default function LoginForm() {
   });
 
   async function onSubmit(values: ILogin) {
-    // const { error } = await login(values);
+    const { error } = await login(values);
 
-    // if (error) return toast.error(error);
-    console.log(values);
+    if (error) return toast.error(error);
 
     router.push("/");
   }

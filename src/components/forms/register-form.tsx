@@ -15,12 +15,12 @@ import { Input } from "../ui/input";
 import { EyeIcon, EyeOff, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
-// import { register } from "@/utils/data-access/auth";
-// import { toast } from "sonner";
-// import { useRouter } from "next/navigation";
+import { register } from "@/utils/data-access/auth";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
-  //   const router = useRouter();
+  const router = useRouter();
   const form = useForm<IRegister>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -33,10 +33,9 @@ export default function RegisterForm() {
   });
 
   async function onSubmit(values: IRegister) {
-    // const { error } = await register(values);
-    // if (error) return toast.error(error);
-    console.log(values);
-    // router.push("/verify-account");
+    const { error } = await register(values);
+    if (error) return toast.error(error);
+    router.push("/verify-account");
   }
 
   const isLoading = form.formState.isSubmitting;

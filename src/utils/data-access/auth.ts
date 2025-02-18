@@ -36,7 +36,6 @@ export const login = async (formData: ILogin) => {
     error,
     data: { session },
   } = await supabase.auth.signInWithPassword(formData);
-
   if (error || !session)
     return { error: error?.message ?? "Invalid login credentials" };
 
@@ -68,7 +67,6 @@ export const getCurrentUserCache = async () => {
   } = await supabase.auth.getUser();
 
   if (!user) return redirect("/login");
-
   return user;
 };
 
