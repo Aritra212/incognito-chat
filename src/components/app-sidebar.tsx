@@ -1,12 +1,11 @@
 "use client";
 import {
-  Calendar,
-  Home,
-  Inbox,
   LogOut,
+  MoonStar,
   Plus,
   Search,
   Settings,
+  UserPen,
 } from "lucide-react";
 
 import {
@@ -24,35 +23,24 @@ import {
 } from "@/components/ui/sidebar";
 import ProfileShort from "./profile-short";
 import { cn } from "@/lib/utils";
+import Show from "./ui/show";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "./ui/button";
+
+type IItem = {
+  title: string;
+  url: string;
+};
 
 // Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-];
+const items: IItem[] = [];
 
 export function AppSidebar() {
   const sidebar = useSidebar();
@@ -61,14 +49,40 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader
-        className={cn("transition-all", !isCollapsed && "p-4 flex")}
+        className={cn(
+          "transition-all",
+          !isCollapsed && "p-4 flex-row items-center justify-between"
+        )}
       >
         <ProfileShort
           name="Aritra Paul"
           userName="Aritra212"
-          editProfile="/profile"
           isCollapsed={isCollapsed}
         />
+        <Show when={!isCollapsed}>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Settings className="w-4 h-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="rounded-lg w-[--radix-dropdown-menu-trigger-width] min-w-56"
+              side={"right"}
+              align="center"
+              sideOffset={19}
+            >
+              <DropdownMenuGroup>
+                <DropdownMenuItem className="flex gap-x-2 items-center">
+                  <UserPen /> Profile
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="flex gap-x-2 items-center">
+                  <MoonStar />
+                  Switch Theme
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </Show>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -81,16 +95,26 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {items.length > 0
+                ? items.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <a href={item.url}>
+                          <span>{item.title}</span>
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))
+                : !isCollapsed && (
+                    <div className="space-y-2 flex flex-col justify-center">
+                      <p className="text-center mt-10 text-muted-foreground">
+                        No conversation found
+                      </p>
+                      <Button size={"sm"} className="w-fit mx-auto">
+                        Create <Plus />
+                      </Button>
+                    </div>
+                  )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
