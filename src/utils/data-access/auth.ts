@@ -7,6 +7,7 @@ import { createClient } from "@/utils/supabase/server";
 import { LogoutProps } from "@/common/common.interface";
 import { redirect } from "next/navigation";
 import { cache } from "react";
+import { User } from "@supabase/supabase-js";
 
 export const register = async (formData: IRegister) => {
   const supabase = await createClient();
@@ -67,7 +68,8 @@ export const getCurrentUserCache = async () => {
   } = await supabase.auth.getUser();
 
   if (!user) return redirect("/login");
-  return user;
+
+  return user as User;
 };
 
 export const getCurrentUser = cache(getCurrentUserCache);

@@ -33,6 +33,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 type IItem = {
   title: string;
@@ -62,7 +63,7 @@ export function AppSidebar() {
         <Show when={!isCollapsed}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Settings className="w-4 h-4" />
+              <Settings className="w-4 h-4 cursor-pointer" />
             </DropdownMenuTrigger>
             <DropdownMenuContent
               className="rounded-lg w-[--radix-dropdown-menu-trigger-width] min-w-56"
@@ -71,9 +72,11 @@ export function AppSidebar() {
               sideOffset={19}
             >
               <DropdownMenuGroup>
-                <DropdownMenuItem className="flex gap-x-2 items-center">
-                  <UserPen /> Profile
-                </DropdownMenuItem>
+                <Link href={"/profile"}>
+                  <DropdownMenuItem className="flex gap-x-2 items-center">
+                    <UserPen /> Profile
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="flex gap-x-2 items-center">
                   <MoonStar />
