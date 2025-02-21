@@ -17,17 +17,15 @@ export default async function Layout({
   return (
     <Protected user={user}>
       <UserContextProvider userData={user}>
-        <main>
-          <SidebarProvider>
-            <AppSidebar />
-            <main className="h-[calc(100dvh-5rem)] w-full flex px-2 py-4 gap-x-2">
-              <SidebarTrigger />
-              <div className="flex justify-center items-center h-full w-full">
-                {children}
-              </div>
-            </main>
-          </SidebarProvider>
-        </main>
+        <SidebarProvider>
+          <AppSidebar />
+          <main className="h-screen flex w-full px-2 py-4 gap-x-2">
+            <SidebarTrigger />
+            <div className="flex-1 overflow-y-auto no-scrollbar">
+              {children}
+            </div>
+          </main>
+        </SidebarProvider>
       </UserContextProvider>
     </Protected>
   );

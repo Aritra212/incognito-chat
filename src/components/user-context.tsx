@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { User } from "@supabase/supabase-js";

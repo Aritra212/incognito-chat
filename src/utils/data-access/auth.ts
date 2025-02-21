@@ -8,6 +8,7 @@ import { LogoutProps } from "@/common/common.interface";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { User } from "@supabase/supabase-js";
+import { revalidatePath } from "next/cache";
 
 export const register = async (formData: IRegister) => {
   const supabase = await createClient();
@@ -73,3 +74,23 @@ export const getCurrentUserCache = async () => {
 };
 
 export const getCurrentUser = cache(getCurrentUserCache);
+
+export async function updateOwnPassword(password: string) {
+  const supabase = await createClient();
+
+  const user = await supabase.auth.getUser();
+
+  if (!user) return { error: "User not found" };
+
+  const { error } = await supabase.auth.updateUser({
+    password,
+  });
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/settings");
+
+  return {
+    success: "Password updated successfully",
+  };
+}

@@ -1,6 +1,15 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -48,8 +57,8 @@
   --background: oklch(0.2 0.0192 193);
   --foreground: oklch(0.98 0.01 181);
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card: oklch(0.28 0.04 193);;
+  --card-foreground: oklch(0.98 0.01 181);
 
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
