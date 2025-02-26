@@ -94,3 +94,15 @@ export async function updateOwnPassword(password: string) {
     success: "Password updated successfully",
   };
 }
+
+export const redirectIfSession = async () => {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) return redirect("/");
+
+  return;
+};

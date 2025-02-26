@@ -31,7 +31,7 @@ export default function PersonalDetailsForm() {
     defaultValues: {
       id: user?.id || "",
       email: user?.email || "",
-      name: user?.app_metadata?.name || "",
+      name: user?.user_metadata?.name || "",
     },
   });
 
@@ -50,7 +50,7 @@ export default function PersonalDetailsForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>User ID</FormLabel>
-              <Input {...field} />
+              <Input {...field} disabled />
               <FormMessage />
             </FormItem>
           )}
@@ -78,6 +78,7 @@ export default function PersonalDetailsForm() {
                 <Input
                   {...field}
                   type="email"
+                  disabled
                   placeholder="Enter your email id"
                 />
               </FormControl>
@@ -85,8 +86,14 @@ export default function PersonalDetailsForm() {
           )}
         />
 
-        <Button type="submit" disabled={isLoading} loading={isLoading}>
-          Update
+        <Button
+          type="submit"
+          size={"lg"}
+          className="w-fit mx-auto"
+          disabled={isLoading}
+          loading={isLoading}
+        >
+          Update Details
         </Button>
       </form>
     </Form>

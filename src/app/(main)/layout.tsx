@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/utils/data-access/auth";
 import { redirect } from "next/navigation";
 import Protected from "@/components/Protected";
 import UserContextProvider from "@/components/user-context";
+import { fetchAllConversations } from "@/utils/data-access/conversations";
 
 export default async function Layout({
   children,
@@ -14,9 +15,11 @@ export default async function Layout({
 
   if (!user) redirect("/login");
 
+  const { data } = await fetchAllConversations(user.id);
+
   return (
     <Protected user={user}>
-      <UserContextProvider userData={user}>
+      <UserContextProvider userData={user} conversations={data || []}>
         <SidebarProvider>
           <AppSidebar />
           <main className="h-screen flex w-full px-2 py-4 gap-x-2">

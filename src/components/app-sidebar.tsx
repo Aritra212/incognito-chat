@@ -32,19 +32,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "./ui/button";
 import Link from "next/link";
-
-type IItem = {
-  title: string;
-  url: string;
-};
-
-// Menu items.
-const items: IItem[] = [];
+import { useContext } from "react";
+import { UserContext } from "./user-context";
+import RecentConversationList from "./recent-conversations";
 
 export function AppSidebar() {
   const sidebar = useSidebar();
+  const { user } = useContext(UserContext);
   const isCollapsed = sidebar.state === "collapsed";
 
   return (
@@ -56,8 +51,8 @@ export function AppSidebar() {
         )}
       >
         <ProfileShort
-          name="Aritra Paul"
-          userName="Aritra212"
+          name={user?.user_metadata?.name || ""}
+          userName={user?.user_metadata?.user_name || ""}
           isCollapsed={isCollapsed}
         />
         <Show when={!isCollapsed}>
@@ -98,26 +93,7 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.length > 0
-                ? items.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild>
-                        <a href={item.url}>
-                          <span>{item.title}</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))
-                : !isCollapsed && (
-                    <div className="space-y-2 flex flex-col justify-center">
-                      <p className="text-center mt-10 text-muted-foreground">
-                        No conversation found
-                      </p>
-                      <Button size={"sm"} className="w-fit mx-auto">
-                        Create <Plus />
-                      </Button>
-                    </div>
-                  )}
+              <RecentConversationList />
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
