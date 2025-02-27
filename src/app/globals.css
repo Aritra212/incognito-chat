@@ -54,7 +54,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.2 0.0192 193);
+  --background: oklch(0.60 0.13 163);
   --foreground: oklch(0.98 0.01 181);
 
   --card: oklch(0.28 0.04 193);;
@@ -100,7 +100,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-   @apply text-foreground bg-gradient-to-tr from-background  to-accent h-dvh;
+   @apply text-foreground bg-gradient-to-tr from-primary  to-accent h-dvh;
   }
 }
 

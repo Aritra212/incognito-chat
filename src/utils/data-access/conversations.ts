@@ -3,11 +3,6 @@
 import { IConversationData, IUser } from "@/common/common.interface";
 import { createClient } from "../supabase/server";
 
-const supabase = await createClient();
-const {
-  data: { user },
-} = await supabase.auth.getUser();
-
 interface usersData {
   user1_id: string;
   user2_id: string;
@@ -26,6 +21,7 @@ interface IConversation {
 }
 
 export const findUserId = async (userData: string) => {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("profile")
     .select("user_id")
@@ -37,6 +33,7 @@ export const findUserId = async (userData: string) => {
 };
 
 export const findConversation = async ({ user1_id, user2_id }: usersData) => {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("conversations")
     .select(`*,user1_id(*),user2_id(*)`)
@@ -54,6 +51,11 @@ async function processConversationData(
   data: IConversation,
   notifications?: number
 ) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const user2Id = data?.user1_id.user_id === user?.id ? "user2_id" : "user1_id";
   let formatedData: IConversationData = {
     created_at: data.created_at,
@@ -65,7 +67,9 @@ async function processConversationData(
   if (notifications) formatedData = { ...formatedData, notifications };
   return formatedData;
 }
+
 export const createConversation = async (formData: usersData) => {
+  const supabase = await createClient();
   const { data: newData, error } = await supabase
     .from("conversations")
     .insert(formData)
@@ -102,6 +106,7 @@ export const newConversation = async (user1_id: string, user2_data: string) => {
 };
 
 export const fetchAllConversations = async (user_id: string) => {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("conversations")
     .select(`*,user1_id(*),user2_id(*),last_message_id(chat_id,message)`)
@@ -136,6 +141,7 @@ export const fetchAllConversations = async (user_id: string) => {
 };
 
 export const fetchConversationById = async (id: string) => {
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("conversation")
     .select(`*,user1_id(*),user2_id(*)`)
@@ -149,6 +155,11 @@ export const fetchConversationById = async (id: string) => {
 };
 
 export const removeActiveState = async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (user) {
     try {
       // Perform the update and handle any errors
