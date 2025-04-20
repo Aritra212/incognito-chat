@@ -24,7 +24,7 @@ export default function RecentConversationList() {
         </div>
       </Show>
       {conversations?.map((conv) => (
-        <Link key={conv.id} href={`/chat/${conv.id}`}>
+        <Link key={conv.id} href={`/chat/${conv.id}`} prefetch>
           <ConversationProfileShort
             lastMessage={conv.last_message}
             name={conv.user.name}

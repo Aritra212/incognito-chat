@@ -7,6 +7,7 @@ import { IConversationData } from "@/common/common.interface";
 import { createClient } from "@/utils/supabase/client";
 // import { fetchAllConversations } from "@/utils/data-access/conversations";
 import { useRouter } from "next/navigation";
+import { fetchAllConversations } from "@/utils/data-access/conversations";
 
 export interface IUserContext {
   user: User | null;
@@ -36,16 +37,22 @@ export default function UserContextProvider({
   const [user, setUser] = useState<User | null>(userData ?? null);
   const supabase = createClient();
   const router = useRouter();
+  const [conversationsData, setConversationsData] = useState<
+    IConversationData[]
+  >(conversations || []);
+  const getConversations = async () => {
+    const { data } = await fetchAllConversations(user?.id || "");
 
-  // const getConversations = async () => {
-  //   const conversations = await fetchAllConversations(user?.id || "");
-
-  //   if (conversations) {
-  //     console.log(conversations);
-  //   }
-  // };
+    if (data) {
+      // console.log(conversations);
+      setConversationsData(data);
+    }
+  };
 
   useEffect(() => {
+    const user_id = conversationsData[0]?.user?.user_id;
+    if (!user_id) return;
+
     const channel = supabase
       .channel("notifications")
       .on(
@@ -54,12 +61,14 @@ export default function UserContextProvider({
           schema: "public",
           table: "notifications",
           event: "UPDATE",
-          filter: `user_id=eq.${user?.id}`,
+          filter: `user_id=eq.${user_id}`,
         },
-        async (payload) => {
+        (payload) => {
           if (payload) {
-            // getConversations();
+            getConversations();
+            console.log("problem");
             router.refresh();
+            console.log("problem refresh called");
           }
         }
       )
@@ -69,11 +78,13 @@ export default function UserContextProvider({
       supabase.removeChannel(channel);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [conversationsData[0]?.user?.user_id]);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <UserContext.Provider value={{ user, setUser, conversations }}>
+      <UserContext.Provider
+        value={{ user, setUser, conversations: conversationsData }}
+      >
         {children}
       </UserContext.Provider>
     </QueryClientProvider>

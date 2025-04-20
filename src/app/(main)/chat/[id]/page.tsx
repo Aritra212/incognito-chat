@@ -1,9 +1,53 @@
+import {
+  fetchChatsByConversationId,
+  getPartnerByConversationId,
+} from "@/utils/data-access/chats";
 import ChatHeader from "./chat-header";
+import { IChatData, IUser } from "@/common/common.interface";
+import MessagesWrapper from "./messages-wrapper";
+import MessageCard from "./message-card";
 
-export default function ChatRoom() {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function ChatRoom({ params }: PageProps) {
+  const { id } = await params;
+
+  const [chatResult, partnerResult] = await Promise.all([
+    fetchChatsByConversationId(id),
+    getPartnerByConversationId(id),
+  ]);
+
+  // Handle potential errors from the data fetching
+  if ("error" in chatResult) {
+    return <div>Error loading chat messages: {chatResult.error}</div>;
+  }
+
+  if ("error" in partnerResult) {
+    return <div>Error loading chat partner: {partnerResult.error}</div>;
+  }
+
   return (
-    <div>
-      <ChatHeader name="aritra paul" userName="aritra" />
+    <div className="pr-6">
+      <ChatHeader partner={partnerResult.partner as unknown as IUser} />
+      <MessagesWrapper
+        data={chatResult.data}
+        className="space-y-10 mx-auto pb-28 min-h-[60vh]"
+      >
+        {(chatResult.data as unknown as IChatData[]).map((message) => (
+          <MessageCard
+            key={message.chat_id}
+            chatData={message}
+            isCurrentUser={
+              message.sender_id.user_id !==
+              (partnerResult.partner as unknown as IUser).user_id
+            }
+          />
+        ))}
+      </MessagesWrapper>
     </div>
   );
 }

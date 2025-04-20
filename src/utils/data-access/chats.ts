@@ -1,5 +1,6 @@
 "use server";
 
+import { IUser } from "@/common/common.interface";
 import { createClient } from "../supabase/server";
 
 interface IInsertChat {
@@ -67,4 +68,27 @@ export const fetchUserDataBySenderId = async (sender_id: string) => {
   if (error) return { error: error.message };
 
   return { data };
+};
+
+export const getPartnerByConversationId = async (conv_id: string) => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { data, error } = await supabase
+    .from("conversations")
+    .select("user1_id(*),user2_id(*)")
+    .eq("id", conv_id)
+    .single();
+
+  if (error) return { error: error.message };
+
+  const user2 = {
+    partner:
+      (data?.user1_id as unknown as IUser)?.user_id === user?.id
+        ? (data.user2_id as unknown as IUser)
+        : data.user1_id,
+  };
+  return user2;
 };
