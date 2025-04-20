@@ -10,7 +10,7 @@ type Props = {
 };
 export default function ChatBox({ chatData, isCurrentUser }: Props) {
   return (
-    <div className={`flex ${isCurrentUser && "justify-end"} my-4`}>
+    <div className={cn("flex my-4", isCurrentUser && "justify-end")}>
       <div
         className={cn(
           "w-full flex gap-2 sm:gap-3 items-end",

@@ -1,3 +1,5 @@
-export default function Chats() {
-  return <div>Chat dash board</div>;
+import { redirect } from "next/navigation";
+
+export default function page() {
+  redirect("/");
 }
