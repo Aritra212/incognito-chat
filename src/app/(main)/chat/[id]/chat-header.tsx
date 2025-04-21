@@ -7,7 +7,7 @@ type Props = {
 };
 export default function ChatHeader({ partner }: Props) {
   return (
-    <div className="flex gap-x-4 items-center rounded-2xl  p-2 w-full bg-primary ">
+    <div className="flex gap-x-4 items-center rounded-2xl  p-2 w-full bg-primary">
       <Avatar className="w-10 h-10 bg-background">
         <AvatarImage src={partner?.avatar_url || ""} />
         <AvatarFallback className="text-primary font-semibold">

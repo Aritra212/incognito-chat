@@ -7,7 +7,7 @@ import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
-
+import Placeholder from "@tiptap/extension-placeholder";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
@@ -108,7 +108,14 @@ export default function RichTextEditor({
 
   const editor = useEditor(
     {
-      extensions: [StarterKit, TextStyle, Color, Underline, Link],
+      extensions: [
+        StarterKit,
+        TextStyle,
+        Color,
+        Underline,
+        Link,
+        Placeholder.configure({ placeholder: "Write your message..." }),
+      ],
       immediatelyRender: false,
       editable: !readOnly,
       content: content ?? formData?.message,
@@ -119,6 +126,9 @@ export default function RichTextEditor({
       editorProps: {
         transformPastedText(text) {
           return text;
+        },
+        attributes: {
+          class: "prose prose-invert max-w-none focus:outline-none [&_p]:mb-1",
         },
       },
     },
@@ -153,7 +163,7 @@ export default function RichTextEditor({
     >
       {editor && (
         <BubbleMenu
-          className="flex items-center gap-2 bg-popover shadow-lg px-3 py-2 rounded-xl"
+          className="flex items-center gap-2 bg-popover/40 backdrop-blur-md shadow-lg px-3 py-2 rounded-xl"
           tippyOptions={{
             duration: 100,
             placement: "auto",

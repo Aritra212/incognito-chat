@@ -6,6 +6,7 @@ import ChatHeader from "./chat-header";
 import { IChatData, IUser } from "@/common/common.interface";
 import MessagesWrapper from "./messages-wrapper";
 import MessageCard from "./message-card";
+import SendMessage from "./send-message";
 
 interface PageProps {
   params: {
@@ -32,7 +33,9 @@ export default async function ChatRoom({ params }: PageProps) {
 
   return (
     <div className="pr-6">
-      <ChatHeader partner={partnerResult.partner as unknown as IUser} />
+      <div className="sticky top-0 z-20 pb-2 bg-gradient-to-b from-input/5 to-transparent backdrop-blur-3xl rounded-2xl">
+        <ChatHeader partner={partnerResult.partner as unknown as IUser} />
+      </div>
       <MessagesWrapper
         data={chatResult.data}
         className="space-y-10 mx-auto pb-28 min-h-[60vh]"
@@ -48,6 +51,7 @@ export default async function ChatRoom({ params }: PageProps) {
           />
         ))}
       </MessagesWrapper>
+      <SendMessage conv_id={id} />
     </div>
   );
 }
