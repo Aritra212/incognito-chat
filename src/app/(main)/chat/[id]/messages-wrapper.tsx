@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useMemo } from "react";
 
 type Props = {
+  conversation_id: string;
   children: React.ReactNode;
   data: IChatData[];
   className?: string;
@@ -15,16 +16,15 @@ export default function MessagesWrapper({
   children,
   data = [],
   className,
+  conversation_id,
 }: Props) {
   const supabase = useMemo(() => createClient(), []);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const conversationId = data[0]?.conversation_id;
-
   useEffect(() => {
-    if (!conversationId) return;
+    if (!conversation_id) return;
 
     const channel = supabase
       .channel("chats")
@@ -33,8 +33,8 @@ export default function MessagesWrapper({
         {
           schema: "public",
           table: "chats",
-          event: "*",
-          filter: `conversation_id=eq.${conversationId}`,
+          event: "INSERT",
+          filter: `conversation_id=eq.${conversation_id}`,
         },
         () => router.refresh()
       )
@@ -44,7 +44,7 @@ export default function MessagesWrapper({
       supabase.removeChannel(channel);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [conversationId]);
+  }, [conversation_id]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {

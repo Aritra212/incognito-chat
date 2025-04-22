@@ -5,19 +5,20 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { User } from "@supabase/supabase-js";
 import { IConversationData } from "@/common/common.interface";
 import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
 import { fetchAllConversations } from "@/utils/data-access/conversations";
 
 export interface IUserContext {
   user: User | null;
   setUser: (user: User) => void;
   conversations: IConversationData[];
+  setConversations: (Conversations: IConversationData[]) => void;
 }
 
 export const UserContext = createContext<IUserContext>({
   user: null,
   setUser: () => {},
   conversations: [],
+  setConversations: () => {},
 });
 
 type Props = {
@@ -35,7 +36,6 @@ export default function UserContextProvider({
 }: Props) {
   const [user, setUser] = useState<User | null>(userData ?? null);
   const supabase = createClient();
-  const router = useRouter();
   const [conversationsData, setConversationsData] = useState<
     IConversationData[]
   >(conversations || []);
@@ -48,8 +48,7 @@ export default function UserContextProvider({
   };
 
   useEffect(() => {
-    const user_id = conversationsData[0]?.user?.user_id;
-    if (!user_id) return;
+    if (!user?.id) return;
 
     const channel = supabase
       .channel("notifications")
@@ -59,12 +58,11 @@ export default function UserContextProvider({
           schema: "public",
           table: "notifications",
           event: "UPDATE",
-          filter: `user_id=eq.${user_id}`,
+          filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
           if (payload) {
             getConversations();
-            router.refresh();
           }
         }
       )
@@ -74,12 +72,17 @@ export default function UserContextProvider({
       supabase.removeChannel(channel);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [conversationsData[0]?.user?.user_id]);
+  }, [supabase, user?.id, conversationsData]);
 
   return (
     <QueryClientProvider client={queryClient}>
       <UserContext.Provider
-        value={{ user, setUser, conversations: conversationsData }}
+        value={{
+          user,
+          setUser,
+          conversations: conversationsData,
+          setConversations: setConversationsData,
+        }}
       >
         {children}
       </UserContext.Provider>

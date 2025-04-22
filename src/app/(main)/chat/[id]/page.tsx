@@ -37,6 +37,7 @@ export default async function ChatRoom({ params }: PageProps) {
         <ChatHeader partner={partnerResult.partner as unknown as IUser} />
       </div>
       <MessagesWrapper
+        conversation_id={id}
         data={chatResult.data}
         className="space-y-10 mx-auto pb-28 min-h-[74vh]"
       >
