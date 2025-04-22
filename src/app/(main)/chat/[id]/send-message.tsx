@@ -1,8 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import RichTextEditor from "@/components/ui/rich-text-editor";
+import useUser from "@/hooks/use-user";
+import { insertChat } from "@/utils/data-access/chats";
 import { SendHorizonal } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 type Props = {
   conv_id: string;
@@ -11,9 +14,23 @@ type Props = {
 export default function SendMessage({ conv_id }: Props) {
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const { user } = useUser();
 
   const handleMessageSubmit = async () => {
-    console.log(message);
+    setLoading(true);
+    const { data: insertedChat, error } = await insertChat({
+      conversation_id: conv_id || "",
+      message,
+      sender_id: user!.id,
+    });
+
+    if (error) toast.error("Message Sending Error: " + error);
+
+    if (insertedChat) {
+      setMessage("");
+    }
+
+    setLoading(false);
   };
 
   return (

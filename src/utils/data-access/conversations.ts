@@ -2,6 +2,7 @@
 
 import { IConversationData, IUser } from "@/common/common.interface";
 import { createClient } from "../supabase/server";
+import { htmlToText } from "html-to-text";
 
 interface usersData {
   user1_id: string;
@@ -60,7 +61,10 @@ async function processConversationData(
   let formatedData: IConversationData = {
     created_at: data.created_at,
     id: data.id,
-    last_message: data?.last_message_id?.message,
+    last_message: await extractTextFromHTML(
+      data?.last_message_id?.message || "",
+      25
+    ),
     user: data[user2Id],
   };
 
@@ -172,3 +176,19 @@ export const removeActiveState = async () => {
     }
   }
 };
+
+export async function extractTextFromHTML(
+  html: string,
+  limit?: number
+): Promise<string> {
+  if (typeof html !== "string") return "";
+
+  const text = htmlToText(html, {
+    wordwrap: false,
+    selectors: [
+      { selector: "a", options: { ignoreHref: true } }, // optional
+    ],
+  });
+
+  return limit && text.length > limit ? text.substring(0, limit) + "..." : text;
+}

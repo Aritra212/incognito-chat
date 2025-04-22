@@ -3,6 +3,7 @@ import { IChatData } from "@/common/common.interface";
 import { Card, CardContent } from "@/components/ui/card";
 import ProfileShort from "@/components/profile-short";
 import { cn } from "@/lib/utils";
+import RichTextEditor from "@/components/ui/rich-text-editor";
 
 type Props = {
   chatData?: IChatData;
@@ -23,14 +24,18 @@ export default function ChatBox({ chatData, isCurrentUser }: Props) {
           isCollapsed={true}
         />
         <div className="min-w-4/5 sm:min-w-3/5 md:min-w-1/2 space-y-1.5">
-          <Card
-            className={cn(
-              "px-4 py-6  border-none rounded-xl",
-              isCurrentUser ? "rounded-br-none" : "rounded-bl-none"
-            )}
-          >
-            <CardContent>
-              <p className="text-sm">{chatData?.message}</p>
+          <Card className="border-none">
+            <CardContent
+              className={cn(
+                "p-0 bg-primary rounded-xl",
+                isCurrentUser ? "rounded-br-none" : "rounded-bl-none"
+              )}
+            >
+              <RichTextEditor
+                content={chatData?.message}
+                readOnly
+                className={cn("min-h-0 bg-transparent py-2")}
+              />
             </CardContent>
           </Card>
           <p className={cn("text-xs px-4", isCurrentUser && "text-right")}>
