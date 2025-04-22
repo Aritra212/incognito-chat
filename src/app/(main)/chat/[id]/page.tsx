@@ -38,7 +38,7 @@ export default async function ChatRoom({ params }: PageProps) {
       </div>
       <MessagesWrapper
         data={chatResult.data}
-        className="space-y-10 mx-auto pb-28 min-h-[60vh]"
+        className="space-y-10 mx-auto pb-28 min-h-[74vh]"
       >
         {(chatResult.data as unknown as IChatData[]).map((message) => (
           <MessageCard

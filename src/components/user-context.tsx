@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { User } from "@supabase/supabase-js";
 import { IConversationData } from "@/common/common.interface";
 import { createClient } from "@/utils/supabase/client";
-// import { fetchAllConversations } from "@/utils/data-access/conversations";
 import { useRouter } from "next/navigation";
 import { fetchAllConversations } from "@/utils/data-access/conversations";
 
@@ -44,7 +43,6 @@ export default function UserContextProvider({
     const { data } = await fetchAllConversations(user?.id || "");
 
     if (data) {
-      // console.log(conversations);
       setConversationsData(data);
     }
   };
@@ -66,9 +64,7 @@ export default function UserContextProvider({
         (payload) => {
           if (payload) {
             getConversations();
-            console.log("problem");
             router.refresh();
-            console.log("problem refresh called");
           }
         }
       )
