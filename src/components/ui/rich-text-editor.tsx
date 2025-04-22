@@ -8,7 +8,7 @@ import Color from "@tiptap/extension-color";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "./button";
 import { Bold, Italic, UnderlineIcon } from "lucide-react";
@@ -23,6 +23,7 @@ type Props = {
   className?: string;
   readOnlyContent?: string;
   editorClassName?: string;
+  clear?: number;
 };
 
 type MenuButtonProps = {
@@ -101,6 +102,7 @@ export default function RichTextEditor({
   className,
   readOnlyContent,
   editorClassName,
+  clear = 0,
 }: Props) {
   const [isColorOpen, setIsColorOpen] = useState(false);
   const [isBubbleMenuOpen, setIsBubbleMenuOpen] = useState(false);
@@ -134,6 +136,10 @@ export default function RichTextEditor({
     },
     [readOnlyContent]
   );
+
+  useEffect(() => {
+    if (editor && clear > 0) editor.commands.clearContent();
+  }, [editor, clear]);
 
   if (!editor) return null;
 

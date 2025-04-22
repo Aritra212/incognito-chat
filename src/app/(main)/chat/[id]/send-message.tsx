@@ -14,6 +14,8 @@ type Props = {
 export default function SendMessage({ conv_id }: Props) {
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [clear, setClear] = useState<number>(0);
+
   const { user } = useUser();
 
   const handleMessageSubmit = async () => {
@@ -28,6 +30,7 @@ export default function SendMessage({ conv_id }: Props) {
 
     if (insertedChat) {
       setMessage("");
+      setClear((prev) => prev + 1);
     }
 
     setLoading(false);
@@ -42,6 +45,7 @@ export default function SendMessage({ conv_id }: Props) {
           className={
             "bg-transparent backdrop-blur-none min-h-8 max-h-[60vh] bottom-2 overflow-auto shadow-none"
           }
+          clear={clear}
         />
 
         <div className="flex justify-end items-center px-2 pb-2">
