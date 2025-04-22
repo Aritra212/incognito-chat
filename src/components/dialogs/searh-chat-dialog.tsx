@@ -11,7 +11,7 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
-export default function CreateChatDialog({
+export default function SearchChatDialog({
   children,
 }: {
   children: React.ReactNode;
@@ -23,10 +23,10 @@ export default function CreateChatDialog({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Connect to a person</DialogTitle>
+          <DialogTitle>Search a chat</DialogTitle>
         </DialogHeader>
         <div className="space-y-2">
-          <p>Connect by username or email</p>
+          <p>Search by username or email</p>
           <div className="flex gap-2 justify-center mb-4">
             <Input
               type="search"
@@ -42,7 +42,7 @@ export default function CreateChatDialog({
               //   disabled={loading}
               //   loading={loading}
             >
-              Connect
+              Apply
             </Button>
           </div>
         </div>

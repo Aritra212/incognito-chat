@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import { useSidebar } from "./ui/sidebar";
 import ConversationProfileShort from "./conversation-profile-short";
 import Link from "next/link";
+import CreateChatDialog from "./dialogs/create-chat-dialog";
 
 export default function RecentConversationList() {
   const { conversations } = useUser();
@@ -18,9 +19,11 @@ export default function RecentConversationList() {
           <p className="text-center mt-10 text-muted-foreground">
             No conversation found
           </p>
-          <Button size={"sm"} className="w-fit mx-auto">
-            Create <Plus />
-          </Button>
+          <CreateChatDialog>
+            <Button size={"lg"} className="w-fit mx-auto">
+              Create <Plus />
+            </Button>
+          </CreateChatDialog>
         </div>
       </Show>
       {conversations?.map((conv) => (

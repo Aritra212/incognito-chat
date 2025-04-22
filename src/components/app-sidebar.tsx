@@ -36,6 +36,8 @@ import Link from "next/link";
 import { useContext } from "react";
 import { UserContext } from "./user-context";
 import RecentConversationList from "./recent-conversations";
+import CreateChatDialog from "./dialogs/create-chat-dialog";
+import SearchChatDialog from "./dialogs/searh-chat-dialog";
 
 export function AppSidebar() {
   const sidebar = useSidebar();
@@ -85,10 +87,15 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="flex justify-between items-center w-full border-t-2 border-border/20 rounded-none">
-            <p>Recent Conversations</p>
+            <p>Recent Chats</p>
             <div className="flex gap-x-2 items-center">
-              <Search className="w-4 h-4 cursor-pointer" />
-              <Plus className="w-4 h-4 cursor-pointer" />
+              <SearchChatDialog>
+                <Search className="w-4 h-4 cursor-pointer" />
+              </SearchChatDialog>
+
+              <CreateChatDialog>
+                <Plus className="w-4 h-4 cursor-pointer" />
+              </CreateChatDialog>
             </div>
           </SidebarGroupLabel>
           <SidebarGroupContent>

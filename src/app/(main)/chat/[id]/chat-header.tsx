@@ -1,6 +1,14 @@
 import { IUser } from "@/common/common.interface";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { EllipsisVertical } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { CircleAlert, EllipsisVertical, Trash2 } from "lucide-react";
 
 type Props = {
   partner: IUser;
@@ -24,7 +32,27 @@ export default function ChatHeader({ partner }: Props) {
             )
           </p>
           <span className="cursor-pointer hover:bg-background p-1 rounded">
-            <EllipsisVertical className="w-4 h-4" />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <EllipsisVertical className="w-4 h-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="rounded-lg w-[--radix-dropdown-menu-trigger-width] min-w-56 text-foreground"
+                align="start"
+                sideOffset={19}
+              >
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="flex gap-x-2 items-center">
+                    <Trash2 />
+                    Delete Chat
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="flex gap-x-2 items-center">
+                    <CircleAlert /> Block
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </span>
         </div>
       </div>

@@ -6,12 +6,14 @@ export default function Register() {
   return (
     <Card className="min-w-[600px] min-h-94">
       <CardHeader>
-        <CardTitle className="font-bold text-3xl text-center">Log in</CardTitle>
+        <CardTitle className="font-bold text-3xl text-center text-primary-foreground">
+          Log in
+        </CardTitle>
         <p className=" text-center text-sm">
           Don&apos;t have an account?{" "}
           <Link
             href={"/register"}
-            className="font-bold text-primary hover:underline"
+            className="font-bold text-accent hover:underline"
           >
             Register
           </Link>

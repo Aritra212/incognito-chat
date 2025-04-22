@@ -181,13 +181,13 @@ export default function RichTextEditor({
             </MenuButton>
             <MenuButton
               isActive={editor.isActive("italic")}
-              onClick={() => editor.chain().focus().toggleBold().run()}
+              onClick={() => editor.chain().focus().toggleItalic().run()}
             >
               <Italic />
             </MenuButton>
             <MenuButton
               isActive={editor.isActive("underline")}
-              onClick={() => editor.chain().focus().toggleBold().run()}
+              onClick={() => editor.chain().focus().toggleUnderline().run()}
             >
               <UnderlineIcon />
             </MenuButton>
