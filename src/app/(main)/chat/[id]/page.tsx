@@ -8,13 +8,11 @@ import MessagesWrapper from "./messages-wrapper";
 import MessageCard from "./message-card";
 import SendMessage from "./send-message";
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function ChatRoom({ params }: PageProps) {
+export default async function ChatRoom({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
 
   const [chatResult, partnerResult] = await Promise.all([
