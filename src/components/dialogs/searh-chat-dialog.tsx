@@ -34,7 +34,7 @@ export default function SearchChatDialog({
           <DialogTitle>Search a chat</DialogTitle>
         </DialogHeader>
         <Command>
-          <CommandInput placeholder="Search by username or email..." />
+          <CommandInput placeholder="Search by name..." />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             {conversations?.map((conv) => (
