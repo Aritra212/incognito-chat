@@ -1,5 +1,5 @@
 export interface LogoutProps {
-  noredirect: boolean;
+  noredirect?: boolean;
 }
 
 export interface IUser {

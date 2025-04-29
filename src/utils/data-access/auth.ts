@@ -4,7 +4,6 @@ import { ILogin } from "@/components/forms/schemas/login-form-schema";
 import { IRegister } from "@/components/forms/schemas/register-form-schema";
 import { env } from "@/lib/env";
 import { createClient } from "@/utils/supabase/server";
-import { LogoutProps } from "@/common/common.interface";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { User } from "@supabase/supabase-js";
@@ -44,7 +43,7 @@ export const login = async (formData: ILogin) => {
   return { success: true };
 };
 
-export const logout = async ({ noredirect = false }: LogoutProps) => {
+export const logout = async () => {
   const supabase = await createClient();
   const {
     data: { user },
@@ -58,8 +57,7 @@ export const logout = async ({ noredirect = false }: LogoutProps) => {
   const { error } = await supabase.auth.signOut();
 
   if (error) return { error: error.message };
-
-  if (!noredirect) redirect("/login");
+  return { success: true };
 };
 
 export const getCurrentUserCache = async () => {

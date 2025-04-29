@@ -1,7 +1,7 @@
 "use client";
 import {
   LogOut,
-  MoonStar,
+  // MoonStar,
   Plus,
   Search,
   Settings,
@@ -38,6 +38,7 @@ import { UserContext } from "./user-context";
 import RecentConversationList from "./recent-conversations";
 import CreateChatDialog from "./dialogs/create-chat-dialog";
 import SearchChatDialog from "./dialogs/searh-chat-dialog";
+import LogoutDialog from "./dialogs/logout-dialog";
 
 export function AppSidebar() {
   const sidebar = useSidebar();
@@ -75,10 +76,15 @@ export function AppSidebar() {
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="flex gap-x-2 items-center">
-                  <MoonStar />
-                  Switch Theme
-                </DropdownMenuItem>
+                <LogoutDialog>
+                  <DropdownMenuItem
+                    onSelect={(e) => e.preventDefault()}
+                    className="flex gap-x-2 items-center "
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <p>Log Out</p>
+                  </DropdownMenuItem>
+                </LogoutDialog>
               </DropdownMenuGroup>
             </DropdownMenuContent>
           </DropdownMenu>
