@@ -23,7 +23,7 @@ export default function ChatBox({ chatData, isCurrentUser }: Props) {
           userName={chatData?.sender_id?.user_name || ""}
           isCollapsed={true}
         />
-        <div className="min-w-4/5 sm:min-w-3/5 md:min-w-1/2 space-y-1.5">
+        <div className="w-4/5 sm:w-3/5 md:w-1/2 space-y-1.5">
           <Card className="border-none">
             <CardContent
               className={cn(
