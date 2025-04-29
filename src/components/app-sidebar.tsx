@@ -64,7 +64,7 @@ export function AppSidebar() {
               <Settings className="w-4 h-4 text-muted-foreground hover:text-foreground active:rotate-180  cursor-pointer rotate-90 ease-in-out" />
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="rounded-lg w-[--radix-dropdown-menu-trigger-width] min-w-56"
+              className="rounded-lg w-[--radix-dropdown-menu-trigger-width] min-w-56 text-foreground"
               side={"right"}
               align="center"
               sideOffset={19}

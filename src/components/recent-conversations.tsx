@@ -32,6 +32,7 @@ export default function RecentConversationList() {
             lastMessage={conv.last_message}
             name={conv.user.name}
             isCollapsed={isCollapsed}
+            notificationCount={conv.notifications}
           />
         </Link>
       ))}

@@ -8,12 +8,14 @@ type Props = {
   lastMessage: string | null;
   avatar?: string;
   isCollapsed?: boolean;
+  notificationCount?: number;
 };
 export default function ConversationProfileShort({
   name,
   lastMessage,
   avatar,
   isCollapsed = false,
+  notificationCount = 0,
 }: Props) {
   return (
     <>
@@ -26,9 +28,16 @@ export default function ConversationProfileShort({
                 {name.substring(0, 2).toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <div>
-              <p>{name}</p>
-              <p className="text-xs text-muted-foreground">{lastMessage}</p>
+            <div className="flex items-center justify-between w-full">
+              <div>
+                <p>{name}</p>
+                <p className="text-xs text-muted-foreground">{lastMessage}</p>
+              </div>
+              {notificationCount > 0 && (
+                <div className="rounded-full py-1 px-2 bg-background text-xs text-center">
+                  {notificationCount < 100 ? notificationCount : "99+"}
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
