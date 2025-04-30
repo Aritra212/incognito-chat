@@ -116,8 +116,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <div className="flex items-center gap-x-2 cursor-pointer">
-                <LogOut className="w-4 h-4" />
-                <p>Log Out</p>
+                <p className="font-bold">TempChat</p>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>

@@ -65,12 +65,13 @@ export function UpdateSelfPasswordForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>New Password</FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter password"
+                    className="border-muted-foreground"
                     {...field}
                   />
                   <Button
@@ -106,6 +107,7 @@ export function UpdateSelfPasswordForm() {
                   <Input
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm password"
+                    className="border-muted-foreground"
                     {...field}
                   />
                   <Button
