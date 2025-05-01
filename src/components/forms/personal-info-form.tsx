@@ -64,7 +64,8 @@ export default function ProfileUpdateDialog({ user, children }: Props) {
 
   useEffect(() => {
     const handleUserName = async (value: string) => {
-      if (value.trim() === user?.user_name) return setIsUserNameAvailabe(null);
+      if (value.trim() === user?.user_name || value.trim().length < 4)
+        return setIsUserNameAvailabe(null);
       const isAvailable = await isUserNameAvailable(value, user?.user_name);
 
       setIsUserNameAvailabe(isAvailable);

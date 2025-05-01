@@ -57,6 +57,7 @@ export default function RegisterForm() {
 
   useEffect(() => {
     const handleUserName = async (value: string) => {
+      if (value.trim().length < 4) return setIsUserNameAvailabe(null);
       const isAvailable = await isUserNameAvailable(value, "");
 
       setIsUserNameAvailabe(isAvailable);

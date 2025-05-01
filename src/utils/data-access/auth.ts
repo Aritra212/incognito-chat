@@ -116,9 +116,8 @@ export const isUserNameAvailable = async (
     .from("profile")
     .select("user_id")
     .neq("user_name", userName)
-    .eq("user_name", searchName)
+    .eq("user_name", searchName.trim())
     .single();
-  console.log(data);
   if (data) return false;
 
   return true;

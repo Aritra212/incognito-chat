@@ -172,7 +172,7 @@ export const removeActiveState = async () => {
         .update({ is_active: false })
         .match({ user_id: user.id });
     } catch (error) {
-      console.log(error as string);
+      console.error(error as string);
     }
   }
 };
