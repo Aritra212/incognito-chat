@@ -1,5 +1,6 @@
 "use client";
 
+import ProfileUpdateDialog from "@/components/forms/personal-info-form";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,9 +15,18 @@ export default function ProfileInfo() {
     <Card className="border-none min-w-xl pb-10">
       <CardHeader className="font-bold text-2xl flex-row justify-between w-full">
         <p className="w-fit">Personal Informations</p>
-        <Button size={"lg"} variant={"outline"}>
-          Update
-        </Button>
+        <ProfileUpdateDialog
+          user={{
+            email: user?.email || "",
+            user_id: user?.id || "",
+            user_name: user?.user_metadata?.userName,
+            name: user?.user_metadata?.name,
+          }}
+        >
+          <Button size={"lg"} variant={"outline"}>
+            Update
+          </Button>
+        </ProfileUpdateDialog>
       </CardHeader>
       <CardContent>
         <div className="space-y-3 [&>div]:space-y-2">

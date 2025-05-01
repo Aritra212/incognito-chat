@@ -3,7 +3,7 @@ export interface LogoutProps {
 }
 
 export interface IUser {
-  created_at: string;
+  created_at?: string;
   email: string;
   name: string;
   user_id: string;

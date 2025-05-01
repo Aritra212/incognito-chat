@@ -104,3 +104,22 @@ export const redirectIfSession = async () => {
 
   return;
 };
+
+export const isUserNameAvailable = async (
+  searchName: string,
+  userName: string
+) => {
+  if (!searchName) return null;
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from("profile")
+    .select("user_id")
+    .neq("user_name", userName)
+    .eq("user_name", searchName)
+    .single();
+  console.log(data);
+  if (data) return false;
+
+  return true;
+};

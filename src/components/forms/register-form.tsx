@@ -12,12 +12,20 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { EyeIcon, EyeOff, Mail, User } from "lucide-react";
-import { useState } from "react";
+import {
+  CircleCheckBig,
+  CircleX,
+  EyeIcon,
+  EyeOff,
+  Mail,
+  User,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { register } from "@/utils/data-access/auth";
+import { isUserNameAvailable, register } from "@/utils/data-access/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useDebounce } from "@/hooks/use-debounce";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -41,6 +49,21 @@ export default function RegisterForm() {
   const isLoading = form.formState.isSubmitting;
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [isUserNameAvailabe, setIsUserNameAvailabe] = useState<boolean | null>(
+    null
+  );
+  const debounceUserNameTerm = useDebounce(userName, 300);
+
+  useEffect(() => {
+    const handleUserName = async (value: string) => {
+      const isAvailable = await isUserNameAvailable(value, "");
+
+      setIsUserNameAvailabe(isAvailable);
+    };
+
+    handleUserName(debounceUserNameTerm);
+  }, [debounceUserNameTerm]);
 
   return (
     <Form {...form}>
@@ -85,13 +108,33 @@ export default function RegisterForm() {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Enter Username</FormLabel>
+              <FormLabel>
+                <div className="flex justify-between w-full">
+                  <span>Enter Username</span>
+                  {isUserNameAvailabe !== null &&
+                    (isUserNameAvailabe ? (
+                      <span className="flex gap-1.5 text-xs text-secondary">
+                        <CircleCheckBig className="w-4 h-4 " /> Username
+                        available
+                      </span>
+                    ) : (
+                      <span className="flex gap-1.5 text-xs text-destructive">
+                        <CircleX className="w-4 h-4" /> Username not available
+                      </span>
+                    ))}
+                </div>
+              </FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input
                     type="text"
                     placeholder="Enter a username"
                     {...field}
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setUserName(e.target.value);
+                    }}
                   />
                   <User className="top-2.5 right-2.5 absolute w-4 h-4 text-muted-foreground" />
                 </div>
